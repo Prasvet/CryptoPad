@@ -1,0 +1,6 @@
+# Выбор GUI‑библиотеки
+# Допустимые значения: "tkinter", "pyqt", "flask"
+GUI_BACKEND: str = "tkinter"
+
+# Параметры шифрования (можно менять)
+DEFAULT_BASE: int = 33

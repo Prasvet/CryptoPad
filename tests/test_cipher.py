@@ -1,5 +1,5 @@
 import unittest
-from cipher import (
+from core.cipher import (
     reverse_text,
     swap_adjacent,
     shift_by_one,
