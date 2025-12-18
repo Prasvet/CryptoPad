@@ -1,9 +1,11 @@
-def reverse_text(text):
-    """Инвертировать текст (алгоритм 0)."""
+# cipher.py
+
+def reverse_text(text: str, decrypt: bool = False) -> str:
+    """Инверсия текста (симметричная операция)."""
     return text[::-1]
 
-def swap_adjacent(text) -> str:
-    """Замена с соседней буквой (алгоритм 1)."""
+def swap_adjacent(text: str, decrypt: bool = False) -> str:
+    """Обмен соседних символов (симметричная операция)."""
     result = ""
     for i in range(0, len(text) - 1, 2):
         result += text[i + 1] + text[i]
@@ -11,37 +13,36 @@ def swap_adjacent(text) -> str:
         result += text[-1]
     return result
 
-def shift_by_one(text, shift=1):
-    """Сдвиг символов на 1 (алгоритм 2)."""
+def shift_chars(text: str, decrypt: bool = False, base_shift: int = 1) -> str:
+    """Сдвиг символов на base_shift позиций."""
+    shift = -base_shift if decrypt else base_shift
     return ''.join(chr(ord(c) + shift) for c in text)
 
-def shift_by_position(text, base=33):
-    """Сдвиг на позицию (алгоритм 3)."""
+
+def shift_by_position(text: str, decrypt: bool = False, base: int = 33) -> str:
+    """Сдвиг по номеру позиции (с циклом по модулю base)."""
     result = ""
     p = 0
     for c in text:
-        result += chr(ord(c) + p)
+        shift = -p if decrypt else p
+        result += chr(ord(c) + shift)
         p = (p + 1) % base
     return result
 
 
-def unshift_by_one(text, shift=1):
-    """
-    Функции дешифрования (обратные операции)
-    """
-    return ''.join(chr(ord(c) - shift) for c in text)
 
-def unshift_by_position(text, base=33):
-    """
-    Расшифровывает текст, сдвигая каждый символ назад на величину,
-    равную его позиции в строке (с циклом по модулю base).
-    """
-    result = ""
-    p = 0
-    for c in text:
-        result += chr(ord(c) - p)
-        p = (p + 1) % base
-    return result
+# Технический реестр: идентификатор → функция
+ALGORITHMS = {
+    "reverse": reverse_text,
+    "swap_adjacent": swap_adjacent,
+    "shift_by_one": shift_chars,
+    "shift_by_position": shift_by_position,
+}
 
-if __name__ == '__main__':
-    pass
+# Отображение для интерфейса: идентификатор → русское название
+ALGORITHM_NAMES = {
+    "reverse": "Инверсия текста",
+    "swap_adjacent": "Обмен соседних символов",
+    "shift_by_one": "Сдвиг каждого символа на 1",
+    "shift_by_position": "Сдвиг по позиции (модуль 33)",
+}
